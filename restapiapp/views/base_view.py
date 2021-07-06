@@ -1,48 +1,52 @@
-from django.http.response import HttpResponse, JsonResponse
-#from django.shortcuts import render
-#from django.views import View
+from django.http.response import HttpResponse
 from django.core import serializers
-from django.forms.models import model_to_dict
 from requests.models import MissingSchema
 from restapiapp.models.base_model import TBoard
 from restapiapp.serializers import tBoardSerializer
 from rest_framework import viewsets
 from rest_framework.decorators import action
-#from rest_framework.generics import ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView, CreateAPIView
-from rest_framework.response import Response
-import json
+import pymysql
 
 # Create your views here.
+t_board = pymysql.connect(
+        user = 'root', 
+        passwd = 'mbaro2014', 
+        host = 'valar.site',
+        port = 3307, 
+        db = 'test', 
+        charset='utf8'
+        )
 
-class Index(viewsets.ModelViewSet):
+cursor = t_board.cursor(pymysql.cursors.DictCursor)
+
+class Notices(viewsets.ModelViewSet):
     queryset = TBoard.objects.all()
     serializer_class = tBoardSerializer
 
-    @action(methods=['post'], detail=False) 
-    def notice(self, request):
-        print('====================================')
-        print(request.data['queryString'])
+    @action(methods=['POST'], detail=False) 
+    def all(self, request):
         queryString = request.data['queryString']
-        print('====================================')
+        cursor.execute(queryString)
+        result = cursor.fetchall()
 
-        resDict = TBoard.objects.raw(queryString)
+        return HttpResponse(result, content_type="text/json-comment-filtered")
 
-        for p in resDict :
-            print(p.title)
+    @action(methods=['POST'], detail=False) 
+    def details(self, request):
+        queryString = request.data['queryString']
+        cursor.execute(queryString)
+        result = cursor.fetchall()
 
-        #resDict = resDict[0]
+        return HttpResponse(result, content_type="text/json-comment-filtered")
 
-        print(resDict)
-        print('====================================')
+    @action(methods=['POST'], detail=False) 
+    def write(self, request):
+        queryString = request.data['queryString']
+        
+        cursor.execute(queryString)
+        t_board.commit()
 
-        #resDict = serializers.serialize('json', resDict)
-        resDict = serializers.serialize('json', resDict)
-
-        #print(resDict.values())
-        print(json.dumps(resDict))
-        print('====================================')
-
-        return HttpResponse(json.dumps(resDict))
+        return HttpResponse()
 
 '''
 class Index_Detail(RetrieveAPIView):

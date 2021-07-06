@@ -5,7 +5,9 @@ from rest_framework import routers
 from .views import base_view
 
 router = routers.DefaultRouter()
-router.register(r'index', base_view.Index, basename='index')
+router.register(r'notices', base_view.Notices, basename='notices')
+#router.register(r'notices/detail', base_view.Notices_Detail, basename='notices_detail')
+#router.register(r'notices/<int:brd_uid>', base_view.Notices_Detail, basename='notices_detail')
 
 urlpatterns = [
     path('api_auth/', include('rest_framework.urls')),
