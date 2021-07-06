@@ -13,7 +13,7 @@ t_board = pymysql.connect(
         passwd = 'mbaro2014', 
         host = 'valar.site',
         port = 3307, 
-        db = 'test', 
+        db = 'test',
         charset='utf8'
         )
 
