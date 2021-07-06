@@ -23,6 +23,7 @@ class Notices(viewsets.ModelViewSet):
     queryset = TBoard.objects.all()
     serializer_class = tBoardSerializer
 
+    # 주석 추가
     @action(methods=['POST'], detail=False) 
     def all(self, request):
         queryString = request.data['queryString']
