@@ -49,24 +49,4 @@ class Notices(viewsets.ModelViewSet):
 
         return HttpResponse()
 
-'''
-class Index_Detail(RetrieveAPIView):
-    lookup_field = 'brd_uid'
-    queryset = t_board.objects.all()
-    serializer_class = tBoardSerializer
-
-class Index_Update(UpdateAPIView):
-    queryset = t_board.objects.all()
-    serializer_class = tBoardSerializer
-
-class Index_Delete(DestroyAPIView):
-    queryset = t_board.objects.all()
-    serializer_class = tBoardSerializer
-
-class Index_Insert(CreateAPIView):
-    queryset = t_board.objects.all()
-    serializer_class = tBoardInsertSerializer
-
-'''
-
     
